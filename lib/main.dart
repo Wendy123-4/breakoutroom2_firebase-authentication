@@ -1,4 +1,4 @@
-import 'package:firebasedemo/logIn.dart';
+import 'package:firebasedemo/setup/logIn.dart';
 import 'package:flutter/material.dart';
 
 void main() {
