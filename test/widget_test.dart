@@ -1,30 +1,119 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:firebasedemo/setup/logIn.dart';
+import 'package:firebasedemo/setup/auth.dart';
 
-import 'package:firebasedemo/main.dart';
+// class AuthMock implements Auth {
+//   AuthMock({this.userId});
+//   String userId;
+
+//   bool didRequestSignIn = false;
+//   bool didRequestCreateUser = false;
+//   bool didRequestLogout = false;
+
+//   Future<String> signIn(String email, String password) async {
+//     didRequestSignIn = true;
+//     return _userIdOrError();
+//   }
+
+//   Future<String> createUser(String email, String password) async {
+//     didRequestCreateUser = true;
+//     return _userIdOrError();
+//   }
+
+//   Future<String> currentUser() async {
+//     return _userIdOrError();
+//   }
+
+//   Future<void> signOut() async {
+//     didRequestLogout = true;
+//     return Future.value();
+//   }
+
+//   Future<String> _userIdOrError() {
+//     if (userId != null) {
+//       return Future.value(userId);
+//     } else {
+//       throw StateError('No user');
+//     }
+//   }
+// }
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  Widget buildTestableWidget(Widget widget) {
+    return new MediaQuery(
+        data: new MediaQueryData(),
+        child: new MaterialApp(home: widget)
+    );
+  }
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+  testWidgets('empty email and password doesn\'t call sign in', (WidgetTester tester) async {
+
+    // Create an authorization mock
+    // AuthMock mock = new AuthMock(userId: 'uid');
+    // create a LoginPage
+    SignIn loginPage = new SignIn();
+    // Add it to the widget tester
+    await tester.pumpWidget(buildTestableWidget(loginPage));
+
+    // tap on the login button
+    Finder loginButton = find.byKey(new Key('login'));
+    await tester.tap(loginButton);
+
+    // 'pump' the tester again. This causes the widget to rebuild
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // check that the hint text is empty
+    Finder hintText = find.byKey(new Key('hint'));
+    expect(hintText.toString().contains(''), true);
+
+    // expect(mock.didRequestSignIn, false);
   });
+
+  // testWidgets('non-empty email and password, valid account, calls sign in, succeeds', (WidgetTester tester) async {
+
+  //   // AuthMock mock = new AuthMock(userId: 'uid');
+  //   SignIn loginPage = new SignIn();
+  //   await tester.pumpWidget(buildTestableWidget(loginPage));
+
+  //   Finder emailField = find.byKey(new Key('email'));
+  //   await tester.enterText(emailField, '_email');
+
+  //   Finder passwordField = find.byKey(new Key('password'));
+  //   await tester.enterText(passwordField, '_password');
+
+  //   Finder loginButton = find.byKey(new Key('login'));
+  //   await tester.tap(loginButton);
+
+  //   await tester.pump();
+
+  //   Finder hintText = find.byKey(new Key('hint'));
+  //   expect(hintText.toString().contains('Signed In'), true);
+
+  //   // expect(mock.didRequestSignIn, true);
+  // });
+
+  // testWidgets('non-empty email and password, invalid account, calls sign in, fails', (WidgetTester tester) async {
+
+  //   // AuthMock mock = new AuthMock(userId: null);
+  //   SignIn loginPage = new SignIn();
+  //   await tester.pumpWidget(buildTestableWidget(loginPage));
+
+  //   Finder emailField = find.byKey(new Key('email'));
+  //   await tester.enterText(emailField, '_email');
+
+  //   Finder passwordField = find.byKey(new Key('password'));
+  //   await tester.enterText(passwordField, '_password');
+
+  //   Finder loginButton = find.byKey(new Key('login'));
+  //   await tester.tap(loginButton);
+
+  //   await tester.pump();
+
+  //   Finder hintText = find.byKey(new Key('hint'));
+  //   expect(hintText.toString().contains('Sign In Error'), true);
+
+  //   // expect(mock.didRequestSignIn, true);
+  // });
 }
