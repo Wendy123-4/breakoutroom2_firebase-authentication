@@ -41,7 +41,7 @@ For widget testing, we'll be testing the following scenarios:
 
 * If the email is empty or the password is less than 6 chars when the user taps on the login button, then we don't attempt to sign in with Firebase and the confirmation message is empty.
 
-* If the email and password are both non-empty and they do match an account on Firebase when the user taps on the login button, then we attempt to sign in with Firebase
+* If the email and password are both correct and they do match an account on Firebase when the user taps on the login button, then we attempt to sign in with Firebase
 
 * If the email and password are both non-empty and they do not match an account on Firebase when the user taps on the login button, then we attempt to sign in with Firebase and we show a failure confirmation message
 
