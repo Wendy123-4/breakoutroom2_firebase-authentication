@@ -47,36 +47,20 @@ For widget testing, we'll be testing the following scenarios:
 
 ## Preview
 
-<<<<<<< HEAD
-### UI
-![alt text](flutter_01.png)
-
-=======
 ### User Interface
 ![alt text](flutter_01.png)
 
 
-
->>>>>>> 4dc296e121124cc18a890c283e2f68cdedda03b5
 ### Register
 ![alt text](flutter_02.png)
 ![alt text](flutter_03.png)
 
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 4dc296e121124cc18a890c283e2f68cdedda03b5
 ### Sign In
 ![alt text](flutter_04.png)
 ![alt text](flutter_05.png)
 
-<<<<<<< HEAD
+
 ### HomePage
 ![alt text](flutter_06.png)
-=======
 
-
-### Home Page
-![alt text](flutter_06.png)
->>>>>>> 4dc296e121124cc18a890c283e2f68cdedda03b5
