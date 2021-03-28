@@ -32,10 +32,12 @@ dependencies:
   cloud_firestore: ^0.13.0+1
   flutter_signin_button: ^1.0.0
   google_sign_in: ^3.2.4
+  sign_button: ^1.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # firebase_auth: ^1.0.1 
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
