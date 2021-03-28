@@ -61,6 +61,6 @@ For widget testing, we'll be testing the following scenarios:
 ![alt text](flutter_05.png)
 
 
-### HomePage
+### Successful Login: Home Page
 ![alt text](flutter_06.png)
 
