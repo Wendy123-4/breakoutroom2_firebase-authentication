@@ -47,15 +47,22 @@ For widget testing, we'll be testing the following scenarios:
 
 ## Preview
 
-### UI
-![alt text](flutter_05.png)
+### User Interface
+![alt text](flutter_01.png)
+
+
 
 ### Register
-![alt text](flutter_01.png)
 ![alt text](flutter_02.png)
-
-### Sign In
 ![alt text](flutter_03.png)
 
-### HomePage
+
+
+### Sign In
 ![alt text](flutter_04.png)
+![alt text](flutter_05.png)
+
+
+
+### Home Page
+![alt text](flutter_06.png)
