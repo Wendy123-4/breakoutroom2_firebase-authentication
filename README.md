@@ -44,3 +44,19 @@ For widget testing, we'll be testing the following scenarios:
 * If the email and password are both non-empty and they do match an account on Firebase when the user taps on the login button, then we attempt to sign in with Firebase
 
 * If the email and password are both non-empty and they do not match an account on Firebase when the user taps on the login button, then we attempt to sign in with Firebase and we show a failure confirmation message
+
+## Preview
+
+### UI
+![alt text](flutter_01.png)
+
+### Register
+![alt text](flutter_02.png)
+![alt text](flutter_03.png)
+
+### Sign In
+![alt text](flutter_04.png)
+![alt text](flutter_05.png)
+
+### HomePage
+![alt text](flutter_06.png)

@@ -1,17 +1,29 @@
+import 'dart:ui';
+
 import 'package:firebasedemo/setup/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_button/sign_button.dart';
 
 class HomePage extends StatefulWidget {
-  // HomePage({this.auth});
-  // final BaseAuth auth;
+  HomePage({this.auth, this.onSignOut});
+  final BaseAuth auth;
+  final VoidCallback onSignOut;
+
+  void _signOut() async {
+    try {
+      await auth.signOut();
+      onSignOut();
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  String _buttonClick = "Click Sign In Button";
+  String _buttonClick = "Click Button";
 
   @override
   Widget build(BuildContext context) {
@@ -29,60 +41,66 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.headline4,
               ),
               SizedBox(
-                height: 5.0,
+                height: 20.0,
               ),
               SignInButton(
                   buttonType: ButtonType.apple,
+                  width: MediaQuery.of(context).size.width / 1.5,
                   onPressed: () {
                     setState(() {
-                      _buttonClick = "apple";
+                      _buttonClick = "Apple";
                     });
                   }),
               SignInButton(
                   buttonType: ButtonType.facebook,
+                  width: MediaQuery.of(context).size.width / 1.5,
                   onPressed: () {
                     setState(() {
-                      _buttonClick = "facebook";
+                      _buttonClick = "Facebook";
                     });
                   }),
               SignInButton(
                   buttonType: ButtonType.twitter,
+                  width: MediaQuery.of(context).size.width / 1.5,
                   onPressed: () {
                     setState(() {
-                      _buttonClick = "twitter";
+                      _buttonClick = "Twitter";
                     });
                   }),
               SignInButton(
                   buttonType: ButtonType.github,
+                  width: MediaQuery.of(context).size.width / 1.5,
                   onPressed: () {
                     setState(() {
-                      _buttonClick = "github";
+                      _buttonClick = "Github";
                     });
                   }),
               SignInButton(
                   buttonType: ButtonType.google,
+                  width: MediaQuery.of(context).size.width / 1.5,
                   onPressed: () {
                     setState(() {
-                      _buttonClick = "google";
+                      _buttonClick = "Google";
                     });
                   }),
               SignInButton(
                   buttonType: ButtonType.linkedin,
+                  width: MediaQuery.of(context).size.width / 1.5,
                   onPressed: () {
                     setState(() {
-                      _buttonClick = "linkedIn";
+                      _buttonClick = "LinkedIn";
                     });
                   }),
-              SignInButton(
-                  buttonType: ButtonType.youtube,
-                  onPressed: () {
-                    setState(() {
-                      _buttonClick = "youtube";
-                    });
-                  }),
-              SignInButton.mini(
-                buttonType: ButtonType.github,
-                onPressed: () {},
+              SizedBox(
+                height: 20.0,
+              ),
+              RaisedButton(
+                onPressed: widget._signOut,
+                color: Colors.blue,
+                child: new Text(
+                  'Logout',
+                  style: new TextStyle(fontSize: 16.0, color: Colors.white),
+                ),
               ),
             ],
           ),

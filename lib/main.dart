@@ -1,6 +1,5 @@
-import 'package:firebasedemo/setup/logIn.dart';
-import 'package:firebasedemo/setup/root.dart';
 import 'package:flutter/material.dart';
+import 'package:firebasedemo/setup/root.dart';
 import 'package:firebasedemo/setup/auth.dart';
 
 void main() {
@@ -16,8 +15,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: RootPage(auth: new Auth()),
-      home: SignIn(),
+      home: RootPage(auth: new Auth()),
     );
   }
 }
