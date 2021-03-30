@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 
+// inject dependencies as abstract class into our widgets
+// helps to make all code inside our tests synchronous
 abstract class BaseAuth {
   Future<String> currentUser();
   Future<String> signIn(String email, String password);
@@ -14,11 +16,12 @@ class Auth implements BaseAuth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   // email/password sign in
+  // warp inside 'Future' because sign in is asynchronous
   Future<String> signIn(String email, String password) async {
     FirebaseUser user = (await _firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password))
         .user;
-    return user.uid;
+    return user.uid; // returns user id as string
   }
 
   // email/password registration

@@ -1,11 +1,11 @@
-// Demo for Sign In Button
-// used for generating sign in buttons for different social media accounts
-import 'dart:ui';
+// Sign In Button
+// Used for generating sign in buttons for different social media accounts
 
-import 'package:firebasedemo/setup/auth.dart';
-import 'package:flutter/material.dart';
 // importing sign in button library
 import 'package:sign_button/sign_button.dart';
+import 'dart:ui';
+import 'package:firebasedemo/setup/auth.dart';
+import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({this.auth, this.onSignOut});

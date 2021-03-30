@@ -3,9 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:firebasedemo/setup/auth.dart';
 
+// building simple login form
 class SignIn extends StatefulWidget {
   SignIn({Key key, this.auth, this.onSignIn}) : super(key: key);
 
+  // used to inject Auth object when sign in page is created
   final BaseAuth auth;
   final VoidCallback onSignIn;
 
@@ -18,35 +20,39 @@ enum FormType { login, register }
 class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // User can enter email and password
+  // _authhint informs user of the authentication result
   String _email, _password, _authHint = '';
   FormType _formType = FormType.login;
 
-  // validate form, and save
+  // validates the fields inside the form,
+  // and saves the email and password if they are valid
   bool validateAndSave() {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
       return true; // save email and password if valid
     }
-    return false; // returns false if invalid
+    return false; // returns false if email and password is invalid
   }
 
-  // validate input fields, and submit
+  // submits inputs
   validateAndSubmit() async {
     if (validateAndSave()) {
       try {
         // if both email and password is correct, sign in with firebase
         String userId = _formType == FormType.login
-            ? await widget.auth.signIn(_email, _password)
-            : await widget.auth.createUser(_email, _password);
+            ? await widget.auth.signIn(_email, _password) // sign in the user
+            : await widget.auth
+                .createUser(_email, _password); // create user, if new account
+        // schedule rebuild of sign in page and update UI
         setState(() {
           // set success hint message
           _authHint = 'Signed In\n\nUser id: $userId';
         });
         // condition for widget testing: comment out when done testing
-        if (widget.onSignIn == null) return '$userId';
+        if (widget.onSignIn == null) return true;
         // schedule rebuild of signin page widget and update UI
-        widget.onSignIn();
+        // widget.onSignIn();
       } catch (e) {
         // if the email or password is invalid, display error message
         setState(() {
@@ -81,6 +87,8 @@ class _SignInState extends State<SignIn> {
     });
   }
 
+  // build method to create a Form to hold two textform fields (for email and password)
+  // and a raised button (login button)
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -100,20 +108,20 @@ class _SignInState extends State<SignIn> {
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.all(16.0),
-                      // creating form that holds two input fields for email and password
+                      // here is where we are creating a form that holds two input fields for email and password
                       child: Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: usernameAndPassword() +
-                              submitWidgets(), // input fields and sign in button
+                              submitWidgets(), // create input fields and sign in button
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              buildHintText(),
+              buildHintText(), // authentication result
             ],
           ),
         ),
@@ -121,12 +129,15 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+  // widget(s) for email and password input fields
   List<Widget> usernameAndPassword() {
     return [
       Padding(
         padding: EdgeInsets.symmetric(vertical: 8.0),
         child: TextFormField(
           key: new Key('email'),
+          // simple email validator
+          // check is email is empty
           validator: (input) => input.isEmpty ? 'Email can\'t be empty.' : null,
           decoration: InputDecoration(labelText: 'Email'),
           onSaved: (input) => _email = input,
@@ -137,6 +148,8 @@ class _SignInState extends State<SignIn> {
         padding: EdgeInsets.symmetric(vertical: 8.0),
         child: TextFormField(
           key: new Key('password'),
+          // simple password validator
+          // checks if password is less than 6 chars
           validator: (input) =>
               input.length < 6 ? 'Password must be at least 6 chars.' : null,
           decoration: InputDecoration(labelText: 'Password'),
@@ -151,6 +164,7 @@ class _SignInState extends State<SignIn> {
     ];
   }
 
+  // widget(s) for either login or creating an account
   List<Widget> submitWidgets() {
     switch (_formType) {
       case FormType.login:
@@ -170,6 +184,8 @@ class _SignInState extends State<SignIn> {
                 "Sign In",
                 style: TextStyle(color: Colors.white, fontSize: 20.0),
               ),
+              // call validateAndSubmit() if login button is tapped
+              // this, in turn, calls validateAndSave()
               onPressed: validateAndSubmit,
             ),
           ),
@@ -227,6 +243,7 @@ class _SignInState extends State<SignIn> {
     return null;
   }
 
+  // widget for authentication result
   Widget buildHintText() {
     return Container(
       padding: EdgeInsets.all(32.0),
