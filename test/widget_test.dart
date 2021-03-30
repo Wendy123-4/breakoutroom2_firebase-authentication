@@ -47,8 +47,12 @@ void main() {
     );
   }
 
-  testWidgets(
-      'empty email and password or insufficient chars, doesn\'t call sign in',
+  // Test 1
+
+  // If the email is empty, or the password is less than 6 chars
+  // when the user taps on the login button, the code should not attempt
+  // to sign in with Firebase and the confirmation message is empty
+  testWidgets('sign in fail - empty email and password or insufficient chars',
       (WidgetTester tester) async {
     // Create an authorization mock
     AuthMock mock = new AuthMock(userId: 'uid');
@@ -71,8 +75,12 @@ void main() {
     expect(mock.didRequestSignIn, false);
   });
 
-  testWidgets(
-      'non-empty email and password, valid account, calls sign in, succeeds',
+  // Test 2
+
+  // If the email and password are both correct, and they match an account on firebase
+  // when the user taps on the login button, then attempt to sign in with Firebase
+  // and the confirmation message is successful
+  testWidgets('sign in successful - valid account',
       (WidgetTester tester) async {
     AuthMock mock = new AuthMock(userId: 'uid');
     SignIn loginPage = new SignIn(
@@ -97,9 +105,12 @@ void main() {
     expect(mock.didRequestSignIn, true);
   });
 
-  testWidgets(
-      'non-empty email and password, invalid account, calls sign in, fails',
-      (WidgetTester tester) async {
+  // Test 3
+
+  // if the email and password are both non-empty, the password having more than 6 chars
+  // and they do not match an account on Firebase when the user taps on the login button
+  // then attempt to sign in with Firebase and show a failure confirmation message
+  testWidgets('sign in failure - invalid account', (WidgetTester tester) async {
     AuthMock mock = new AuthMock(userId: null);
     SignIn loginPage = new SignIn(
       auth: mock,

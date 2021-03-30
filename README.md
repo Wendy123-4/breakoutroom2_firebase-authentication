@@ -8,7 +8,7 @@
 
 * User can enter their email and password
 * When login is tapped, the input fields are validated
-* If the email or password is invalid, they are highlighted in red
+* If the email or password is invalid, they are highlighted in an error message
 * If both email and password is correct, they are used to sign in with Firebase 
 
 #### Logic:

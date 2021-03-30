@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebasedemo/pages/home.dart';
 import 'package:firebasedemo/setup/auth.dart';
 
 class SignIn extends StatefulWidget {
@@ -19,41 +17,53 @@ enum FormType { login, register }
 
 class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // User can enter email and password
   String _email, _password, _authHint = '';
   FormType _formType = FormType.login;
 
+  // validate form, and save
   bool validateAndSave() {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      return true;
+      return true; // save email and password if valid
     }
-    return false;
+    return false; // returns false if invalid
   }
 
-  void validateAndSubmit() async {
+  // validate input fields, and submit
+  validateAndSubmit() async {
     if (validateAndSave()) {
       try {
+        // if both email and password is correct, sign in with firebase
         String userId = _formType == FormType.login
             ? await widget.auth.signIn(_email, _password)
             : await widget.auth.createUser(_email, _password);
         setState(() {
+          // set success hint message
           _authHint = 'Signed In\n\nUser id: $userId';
         });
+        // condition for widget testing: comment out when done testing
+        if (widget.onSignIn == null) return '$userId';
+        // schedule rebuild of signin page widget and update UI
         widget.onSignIn();
       } catch (e) {
+        // if the email or password is invalid, display error message
         setState(() {
+          // set sign in error message
           _authHint = 'Sign In Error\n\n${e.toString()}';
         });
         print(e);
       }
     } else {
       setState(() {
-        _authHint = '';
+        _authHint =
+            ''; // if both inputs are non-empty or insufficient chars, return empty string
       });
     }
   }
 
+  // method to change form type to register/create account
   void moveToRegister() {
     _formKey.currentState.reset();
     setState(() {
@@ -62,6 +72,7 @@ class _SignInState extends State<SignIn> {
     });
   }
 
+  // method to change form type to login/sign in
   void moveToLogin() {
     _formKey.currentState.reset();
     setState(() {
@@ -89,11 +100,13 @@ class _SignInState extends State<SignIn> {
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.all(16.0),
+                      // creating form that holds two input fields for email and password
                       child: Form(
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: usernameAndPassword() + submitWidgets(),
+                          children: usernameAndPassword() +
+                              submitWidgets(), // input fields and sign in button
                         ),
                       ),
                     ),

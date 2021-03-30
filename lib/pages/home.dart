@@ -1,7 +1,10 @@
+// Demo for Sign In Button
+// used for generating sign in buttons for different social media accounts
 import 'dart:ui';
 
 import 'package:firebasedemo/setup/auth.dart';
 import 'package:flutter/material.dart';
+// importing sign in button library
 import 'package:sign_button/sign_button.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Sign In Buttons"),
+        centerTitle: true,
       ),
       body: Center(
         child: SingleChildScrollView(
