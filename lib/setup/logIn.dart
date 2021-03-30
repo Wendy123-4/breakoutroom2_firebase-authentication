@@ -8,7 +8,6 @@ class SignIn extends StatefulWidget {
   SignIn({Key key, this.auth, this.onSignIn}) : super(key: key);
   // used to inject Auth object when sign in page is created
   final BaseAuth auth;
-  // final VoidCallback onSignIn;
   final Function(bool) onSignIn;
   @override
   _SignInState createState() => new _SignInState();
