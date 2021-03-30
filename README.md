@@ -25,7 +25,7 @@
 
 ### Sign In Button Package
 
-Sign In Button is a Flutter plugin for generating sign in buttons for different social media accounts.
+Sign In Button is used for generating sign in buttons for different social media accounts.
 
 ### How it works:
 
