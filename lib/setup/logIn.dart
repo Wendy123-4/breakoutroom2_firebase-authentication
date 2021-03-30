@@ -8,7 +8,7 @@ class SignIn extends StatefulWidget {
   SignIn({Key key, this.auth, this.onSignIn}) : super(key: key);
   // used to inject Auth object when sign in page is created
   final BaseAuth auth;
-  final Function(bool) onSignIn;
+  final VoidCallback onSignIn;
   @override
   _SignInState createState() => new _SignInState();
 }
@@ -34,7 +34,7 @@ class _SignInState extends State<SignIn> {
   }
 
   // submits inputs
-  validateAndSubmit() async {
+  void validateAndSubmit() async {
     if (validateAndSave()) {
       try {
         // if both email and password is correct, sign in with firebase
@@ -47,14 +47,17 @@ class _SignInState extends State<SignIn> {
           // set success hint message
           _authHint = 'Signed In\n\nUser id: $userId';
         });
-        widget.onSignIn(true);
+        // checking 'null' return for widget testing
+        if (widget.onSignIn == null) {
+          return null;
+        }
+        widget.onSignIn();
       } catch (e) {
         // if the email or password is invalid, display error message
         setState(() {
           // set sign in error message
           _authHint = 'Sign In Error\n\n${e.toString()}';
         });
-        print(e); // print error
       }
     } else {
       setState(() {
