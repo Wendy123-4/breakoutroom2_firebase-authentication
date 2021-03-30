@@ -8,7 +8,8 @@ class SignIn extends StatefulWidget {
   SignIn({Key key, this.auth, this.onSignIn}) : super(key: key);
   // used to inject Auth object when sign in page is created
   final BaseAuth auth;
-  final VoidCallback onSignIn;
+  // final VoidCallback onSignIn;
+  final Function(bool) onSignIn;
   @override
   _SignInState createState() => new _SignInState();
 }
@@ -47,9 +48,7 @@ class _SignInState extends State<SignIn> {
           // set success hint message
           _authHint = 'Signed In\n\nUser id: $userId';
         });
-        // condition for widget testing
-        if (widget.onSignIn == null) return true;
-        widget.onSignIn();
+        widget.onSignIn(true);
       } catch (e) {
         // if the email or password is invalid, display error message
         setState(() {
