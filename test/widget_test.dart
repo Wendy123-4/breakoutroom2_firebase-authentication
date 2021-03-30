@@ -35,7 +35,7 @@ class AuthMock implements Auth {
     return Future.value();
   }
 
-  // log/return message
+  // log message
   Future<String> _userIdOrError() {
     if (userId != null) {
       return Future.value(userId); // successful response
@@ -100,11 +100,11 @@ void main() {
     );
     await tester.pumpWidget(buildTestableWidget(loginPage));
 
-    // enter text i.e email
+    // enter email as text
     Finder emailField = find.byKey(new Key('email'));
     await tester.enterText(emailField, 'email');
 
-    // enter text i.e password
+    // enter password as text
     Finder passwordField = find.byKey(new Key('password'));
     await tester.enterText(passwordField, 'password');
 
@@ -127,19 +127,22 @@ void main() {
   // and they do not match an account on Firebase when the user taps on the login button
   // then attempt to sign in with Firebase and show a failure confirmation message
   testWidgets('sign in failure - invalid account', (WidgetTester tester) async {
-    // mock without user id - throws an error, simulates error
+    // mock without user id - simulates error
     AuthMock mock = new AuthMock(userId: null);
     SignIn loginPage = new SignIn(
       auth: mock,
     );
     await tester.pumpWidget(buildTestableWidget(loginPage));
 
+    // enter email as text
     Finder emailField = find.byKey(new Key('email'));
     await tester.enterText(emailField, 'email');
 
+    // enter password as text
     Finder passwordField = find.byKey(new Key('password'));
     await tester.enterText(passwordField, 'password');
 
+    // tap on login button
     Finder loginButton = find.byKey(new Key('login'));
     await tester.tap(loginButton);
 

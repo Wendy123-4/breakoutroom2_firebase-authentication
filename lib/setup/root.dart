@@ -3,6 +3,8 @@ import 'package:firebasedemo/setup/auth.dart';
 import 'package:firebasedemo/setup/logIn.dart';
 import 'package:firebasedemo/pages/home.dart';
 
+// this class helps us check if a user is signed in or not
+// so we can confirm request to sign out
 class RootPage extends StatefulWidget {
   RootPage({Key key, this.auth}) : super(key: key);
   final BaseAuth auth;
@@ -17,11 +19,12 @@ enum AuthStatus {
 }
 
 class _RootPageState extends State<RootPage> {
-  AuthStatus authStatus = AuthStatus.notSignedIn;
+  AuthStatus authStatus = AuthStatus.notSignedIn; // status of user
 
   initState() {
     super.initState();
     widget.auth.currentUser().then((userId) {
+      // if current user has user id, then the user is signed in
       setState(() {
         authStatus =
             userId != null ? AuthStatus.signedIn : AuthStatus.notSignedIn;
@@ -29,12 +32,14 @@ class _RootPageState extends State<RootPage> {
     });
   }
 
+  // update sign in status
   void _updateAuthStatus(AuthStatus status) {
     setState(() {
       authStatus = status;
     });
   }
 
+  // build switch cases for user sign in or out
   @override
   Widget build(BuildContext context) {
     switch (authStatus) {

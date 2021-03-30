@@ -6,11 +6,9 @@ import 'package:firebasedemo/setup/auth.dart';
 // building simple login form
 class SignIn extends StatefulWidget {
   SignIn({Key key, this.auth, this.onSignIn}) : super(key: key);
-
   // used to inject Auth object when sign in page is created
   final BaseAuth auth;
   final VoidCallback onSignIn;
-
   @override
   _SignInState createState() => new _SignInState();
 }
@@ -49,9 +47,8 @@ class _SignInState extends State<SignIn> {
           // set success hint message
           _authHint = 'Signed In\n\nUser id: $userId';
         });
-        // condition for widget testing: comment out when done testing
+        // condition for widget testing
         if (widget.onSignIn == null) return true;
-        // schedule rebuild of signin page widget and update UI
         // widget.onSignIn();
       } catch (e) {
         // if the email or password is invalid, display error message
@@ -59,17 +56,17 @@ class _SignInState extends State<SignIn> {
           // set sign in error message
           _authHint = 'Sign In Error\n\n${e.toString()}';
         });
-        print(e);
+        print(e); // print error
       }
     } else {
       setState(() {
         _authHint =
-            ''; // if both inputs are non-empty or insufficient chars, return empty string
+            ''; // if both inputs are non-empty or password has insufficient chars, return empty string
       });
     }
   }
 
-  // method to change form type to register/create account
+  // method to change form type to create account
   void moveToRegister() {
     _formKey.currentState.reset();
     setState(() {
@@ -78,7 +75,7 @@ class _SignInState extends State<SignIn> {
     });
   }
 
-  // method to change form type to login/sign in
+  // method to change form type to login
   void moveToLogin() {
     _formKey.currentState.reset();
     setState(() {
@@ -103,6 +100,7 @@ class _SignInState extends State<SignIn> {
           child: Column(
             children: [
               Card(
+                // create card to make form look presentable
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -113,15 +111,16 @@ class _SignInState extends State<SignIn> {
                         key: _formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: usernameAndPassword() +
-                              submitWidgets(), // create input fields and sign in button
+                          // create input fields and sign in button
+                          children: emailAndPassword() + submitWidgets(),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              buildHintText(), // authentication result
+              // authentication result
+              buildHintText(),
             ],
           ),
         ),
@@ -130,14 +129,14 @@ class _SignInState extends State<SignIn> {
   }
 
   // widget(s) for email and password input fields
-  List<Widget> usernameAndPassword() {
+  List<Widget> emailAndPassword() {
     return [
       Padding(
         padding: EdgeInsets.symmetric(vertical: 8.0),
         child: TextFormField(
           key: new Key('email'),
           // simple email validator
-          // check is email is empty
+          // check if email is empty
           validator: (input) => input.isEmpty ? 'Email can\'t be empty.' : null,
           decoration: InputDecoration(labelText: 'Email'),
           onSaved: (input) => _email = input,
@@ -154,7 +153,7 @@ class _SignInState extends State<SignIn> {
               input.length < 6 ? 'Password must be at least 6 chars.' : null,
           decoration: InputDecoration(labelText: 'Password'),
           onSaved: (input) => _password = input,
-          obscureText: true,
+          obscureText: true, // hide text
           autocorrect: false,
         ),
       ),
@@ -184,7 +183,7 @@ class _SignInState extends State<SignIn> {
                 "Sign In",
                 style: TextStyle(color: Colors.white, fontSize: 20.0),
               ),
-              // call validateAndSubmit() if login button is tapped
+              // calls validateAndSubmit() if login button is tapped
               // this, in turn, calls validateAndSave()
               onPressed: validateAndSubmit,
             ),
@@ -193,6 +192,7 @@ class _SignInState extends State<SignIn> {
             height: 10.0,
           ),
           new FlatButton(
+            // user can click to switch to register
             key: new Key('need-account'),
             child: new Text(
               "Don't have an account? Sign Up!",
@@ -210,47 +210,52 @@ class _SignInState extends State<SignIn> {
           ConstrainedBox(
             constraints: BoxConstraints.expand(height: 44.0),
             child: new RaisedButton(
-                key: new Key('register'),
-                child: Text(
-                  "Sign Up",
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
+              key: new Key('register'),
+              child: Text(
+                "Sign Up",
+                style: TextStyle(color: Colors.white, fontSize: 20.0),
+              ),
+              textColor: Colors.black87,
+              color: Colors.blue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(22.0),
                 ),
-                textColor: Colors.black87,
-                color: Colors.blue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(22.0),
-                  ),
-                ),
-                onPressed: validateAndSubmit),
+              ),
+              onPressed: validateAndSubmit,
+            ),
           ),
           SizedBox(
             height: 10.0,
           ),
           new FlatButton(
-              key: new Key('need-login'),
-              child: new Text(
-                "Already have an account? Sign In!",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.normal,
-                ),
+            // user can click to switch to login
+            key: new Key('need-login'),
+            child: new Text(
+              "Already have an account? Sign In!",
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
               ),
-              onPressed: moveToLogin),
+            ),
+            onPressed: moveToLogin,
+          ),
         ];
     }
     return null;
   }
 
-  // widget for authentication result
+  // widget for displaying authentication result
   Widget buildHintText() {
     return Container(
       padding: EdgeInsets.all(32.0),
-      child: new Text(_authHint,
-          key: new Key('hint'),
-          style: new TextStyle(fontSize: 12.0, color: Colors.grey),
-          textAlign: TextAlign.center),
+      child: new Text(
+        _authHint,
+        key: new Key('hint'),
+        style: new TextStyle(fontSize: 12.0, color: Colors.grey),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
