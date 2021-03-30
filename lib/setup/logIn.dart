@@ -49,7 +49,7 @@ class _SignInState extends State<SignIn> {
         });
         // condition for widget testing
         if (widget.onSignIn == null) return true;
-        // widget.onSignIn();
+        widget.onSignIn();
       } catch (e) {
         // if the email or password is invalid, display error message
         setState(() {
